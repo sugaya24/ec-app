@@ -31,6 +31,25 @@ export const listenAuthState = () => {
   };
 };
 
+export const resetPassword = (email) => {
+  return async (dispatch) => {
+    if (email === '') {
+      alert('You need to fill required form.');
+      return false;
+    } else {
+      auth
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          alert('Email to reset your Password has sent.');
+          dispatch(push('/signin'));
+        })
+        .catch(() => {
+          alert('Failed to reset your Password. Please try again later.');
+        });
+    }
+  };
+};
+
 export const signIn = (email, password) => {
   return async (dispatch) => {
     // Validation
