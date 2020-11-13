@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 firestore.rules
+
+.env
