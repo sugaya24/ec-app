@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import ImageArea from '../components/Products/ImageArea';
 import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit';
 import { saveProduct } from '../reducks/products/operations';
 import styled from 'styled-components';
+import { db } from '../firebase/index';
 
 const Container = styled.div`
   margin: 0 auto;
@@ -15,6 +16,10 @@ const Container = styled.div`
 
 export const ProductEdit = () => {
   const dispatch = useDispatch();
+  let id = window.location.pathname.split('/product/edit')[1];
+  if (id !== '') {
+    id = id.split('/')[1];
+  }
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -53,6 +58,23 @@ export const ProductEdit = () => {
     { id: 'men', name: 'Men' },
     { id: 'women', name: 'Women' },
   ];
+
+  useEffect(() => {
+    if (id !== '') {
+      db.collection('products')
+        .doc(id)
+        .get()
+        .then((snapshot) => {
+          const data = snapshot.data();
+          setName(data.name);
+          setImages(data.images);
+          setGender(data.gender);
+          setCategory(data.category);
+          setPrice(data.price);
+          setDescription(data.description);
+        });
+    }
+  }, [id]);
 
   return (
     <section>
@@ -107,7 +129,17 @@ export const ProductEdit = () => {
           <PrimaryButton
             label={'Save a product'}
             onClick={() =>
-              dispatch(saveProduct(name, description, category, gender, price))
+              dispatch(
+                saveProduct(
+                  id,
+                  name,
+                  description,
+                  category,
+                  gender,
+                  price,
+                  images
+                )
+              )
             }
           />
         </div>

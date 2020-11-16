@@ -30,7 +30,6 @@ export const ImageArea = (props) => {
       } else {
         const newImages = images.filter((image) => image.id !== id);
         props.setImages(newImages);
-        console.log(storage.ref('images'));
         return storage.ref('images').child(id).delete();
       }
     },
@@ -49,7 +48,6 @@ export const ImageArea = (props) => {
       const fileName = Array.from(crypto.getRandomValues(new Uint16Array(N)))
         .map((n) => S[n % S.length])
         .join('');
-      console.log('event', fileName);
 
       const uploadRef = storage.ref('images').child(fileName);
       const uploadTask = uploadRef.put(blob);
@@ -58,7 +56,6 @@ export const ImageArea = (props) => {
         uploadTask.snapshot.ref
           .getDownloadURL()
           .then((downloadURL) => {
-            console.log(downloadURL);
             const newImage = { id: fileName, path: downloadURL };
             props.setImages((prevState) => [...prevState, newImage]);
           })
@@ -71,8 +68,8 @@ export const ImageArea = (props) => {
   return (
     <div>
       <Thumbnail>
-        {props.images.length > 0 &&
-          props.images.map((image) => (
+        {images.length > 0 &&
+          images.map((image) => (
             <ImagePreview
               delete={deleteImage}
               path={image.path}

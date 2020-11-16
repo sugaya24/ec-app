@@ -24,7 +24,6 @@ const ListImages = styled.div`
 `;
 
 export const ImagePreview = (props) => {
-  console.log('props: ', props);
   return (
     <ListImages onClick={() => props.delete(props.id)}>
       <img src={props.path} alt="Preview image" />
