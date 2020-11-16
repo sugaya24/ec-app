@@ -1,7 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import ImageArea from '../components/Products/ImageArea';
 import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit';
 import { saveProduct } from '../reducks/products/operations';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  margin: 0 auto;
+  max-width: 400px;
+  padding: 1rem;
+  height: auto;
+  width: calc(100% - 2rem);
+`;
 
 export const ProductEdit = () => {
   const dispatch = useDispatch();
@@ -10,6 +20,7 @@ export const ProductEdit = () => {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [gender, setGender] = useState('');
+  const [images, setImages] = useState([]);
   const [price, setPrice] = useState('');
 
   const inputName = useCallback(
@@ -45,59 +56,62 @@ export const ProductEdit = () => {
 
   return (
     <section>
-      <h2>Register product</h2>
-      <div>
-        <TextInput
-          fullWidth={true}
-          label={'Product name'}
-          multiline={false}
-          required={true}
-          onChange={inputName}
-          rows={1}
-          value={name}
-          type={'text'}
-        />
-        <TextInput
-          fullWidth={true}
-          label={'Description'}
-          multiline={true}
-          required={true}
-          onChange={inputDescription}
-          rows={5}
-          value={description}
-          type={'text'}
-        />
-        <SelectBox
-          label={'Category'}
-          required={true}
-          options={categories}
-          select={setCategory}
-          value={category}
-        />
-        <SelectBox
-          label={'Gender'}
-          required={true}
-          options={genders}
-          select={setGender}
-          value={gender}
-        />
-        <TextInput
-          fullWidth={true}
-          label={'Price'}
-          multiline={false}
-          required={true}
-          onChange={inputPrice}
-          rows={1}
-          value={price}
-          type={'number'}
-        />
-        <PrimaryButton
-          label={'Save a product'}
-          onClick={() =>
-            dispatch(saveProduct(name, description, category, gender, price))
-          }
-        />
-      </div>
+      <Container>
+        <h2>Register product</h2>
+        <ImageArea images={images} setImages={setImages} />
+        <div>
+          <TextInput
+            fullWidth={true}
+            label={'Product name'}
+            multiline={false}
+            required={true}
+            onChange={inputName}
+            rows={1}
+            value={name}
+            type={'text'}
+          />
+          <TextInput
+            fullWidth={true}
+            label={'Description'}
+            multiline={true}
+            required={true}
+            onChange={inputDescription}
+            rows={5}
+            value={description}
+            type={'text'}
+          />
+          <SelectBox
+            label={'Category'}
+            required={true}
+            options={categories}
+            select={setCategory}
+            value={category}
+          />
+          <SelectBox
+            label={'Gender'}
+            required={true}
+            options={genders}
+            select={setGender}
+            value={gender}
+          />
+          <TextInput
+            fullWidth={true}
+            label={'Price'}
+            multiline={false}
+            required={true}
+            onChange={inputPrice}
+            rows={1}
+            value={price}
+            type={'number'}
+          />
+          <PrimaryButton
+            label={'Save a product'}
+            onClick={() =>
+              dispatch(saveProduct(name, description, category, gender, price))
+            }
+          />
+        </div>
+      </Container>
     </section>
   );
 };
