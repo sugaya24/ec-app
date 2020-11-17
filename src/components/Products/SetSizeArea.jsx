@@ -57,7 +57,7 @@ export const SetSizeArea = (props) => {
       setSize('');
       setQuantity(0);
     } else {
-      const newSizes = props.sizes;
+      const newSizes = [...props.sizes];
       newSizes[index] = { size: size, quantity: quantity };
       props.setSizes(newSizes);
       setIndex(newSizes.length);
