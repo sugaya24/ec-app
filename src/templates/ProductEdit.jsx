@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import ImageArea from '../components/Products/ImageArea';
+import { SetSizeArea, ImageArea } from '../components/Products/index';
 import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit';
 import { saveProduct } from '../reducks/products/operations';
 import styled from 'styled-components';
@@ -27,6 +27,7 @@ export const ProductEdit = () => {
   const [gender, setGender] = useState('');
   const [images, setImages] = useState([]);
   const [price, setPrice] = useState('');
+  const [sizes, setSizes] = useState([]);
 
   const inputName = useCallback(
     (event) => {
@@ -72,6 +73,7 @@ export const ProductEdit = () => {
           setCategory(data.category);
           setPrice(data.price);
           setDescription(data.description);
+          setSizes(data.sizes);
         });
     }
   }, [id]);
@@ -126,6 +128,7 @@ export const ProductEdit = () => {
             value={price}
             type={'number'}
           />
+          <SetSizeArea sizes={sizes} setSizes={setSizes} />
           <PrimaryButton
             label={'Save a product'}
             onClick={() =>
@@ -137,7 +140,8 @@ export const ProductEdit = () => {
                   category,
                   gender,
                   price,
-                  images
+                  images,
+                  sizes
                 )
               )
             }

@@ -27,12 +27,10 @@ export const saveProduct = (
 
     if (id === '') {
       const ref = productsRef.doc();
-      const id = ref.id;
+      id = ref.id;
       data.id = id;
       data.created_at = timestamp;
     }
-
-    console.log(id);
 
     return productsRef
       .doc(id)
