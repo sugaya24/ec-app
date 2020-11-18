@@ -2,7 +2,7 @@ import React from 'react';
 import { IconButton, Badge } from '@material-ui/core';
 import { ShoppingCart, FavoriteBorder, Menu } from '@material-ui/icons';
 
-export const HeaderMenus = () => {
+export const HeaderMenus = (props) => {
   return (
     <>
       <IconButton>
@@ -13,7 +13,7 @@ export const HeaderMenus = () => {
       <IconButton>
         <FavoriteBorder />
       </IconButton>
-      <IconButton>
+      <IconButton onClick={(e) => props.handleDrawerToggle(e)}>
         <Menu />
       </IconButton>
     </>
