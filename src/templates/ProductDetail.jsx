@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { db } from '../firebase/index';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { db, FirebaseTimestamp } from '../firebase/index';
 import { makeStyles } from '@material-ui/core/styles';
 import HTMLReactParser from 'html-react-parser';
 import { ImageSwiper, SizeTable } from '../components/Products/index';
-import { Typography } from '@material-ui/core';
+import { addProductToCart } from '../reducks/users/operations';
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -56,7 +56,7 @@ const returnCodeToBr = (text) => {
 
 export const ProductDetail = () => {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   const selector = useSelector((state) => state);
   const path = selector.router.location.pathname;
   const id = path.split('/product/')[1];
@@ -73,6 +73,26 @@ export const ProductDetail = () => {
       });
   }, []);
 
+  const addProduct = useCallback(
+    (selectedSize) => {
+      const timestamp = FirebaseTimestamp.now();
+      dispatch(
+        addProductToCart({
+          added_at: timestamp,
+          description: product.description,
+          gender: product.gender,
+          images: product.images,
+          name: product.images,
+          price: product.price,
+          productId: product.id,
+          quantity: 1,
+          size: selectedSize,
+        })
+      );
+    },
+    [product]
+  );
+
   return (
     <section className={classes.section}>
       {product && (
@@ -83,7 +103,7 @@ export const ProductDetail = () => {
           <div className={classes.detail}>
             <h2>{product.name}</h2>
             <p>{product.price.toLocaleString()}$</p>
-            <SizeTable sizes={product.sizes} />
+            <SizeTable sizes={product.sizes} addProduct={addProduct} />
             <p>{returnCodeToBr(product.description)}</p>
           </div>
         </div>
