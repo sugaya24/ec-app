@@ -82,7 +82,7 @@ export const ProductDetail = () => {
           description: product.description,
           gender: product.gender,
           images: product.images,
-          name: product.images,
+          name: product.name,
           price: product.price,
           productId: product.id,
           quantity: 1,
