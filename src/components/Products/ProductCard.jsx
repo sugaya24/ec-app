@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     display: 'flex',
     padding: '16px 8px',
+    justifyContent: 'space-between',
     textAlign: 'left',
     '&:last-child': {
       paddingBottom: 16,
